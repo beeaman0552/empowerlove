@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>社團法人中華培愛全人關懷協會 | 用愛陪伴，以愛培力</title>
+  <!-- Google Fonts: Noto Sans TC & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Huninn', '"Noto Sans TC"', 'sans-serif'],
+          },
+          colors: {
+            peiai: {
+              trunk: '#3F3F46',    // 培愛樹幹沉穩深灰
+              red: '#DC2626',      // 愛心樹暖紅（家庭與主要行動）
+              amber: '#D97706',    // 愛心樹琥珀橘（兒少與溫暖漸層）
+              magenta: '#DB2777',  // 愛心樹桃紅（青年與服務學習）
+              green: '#16A34A',    // 愛心樹嫩綠（長青與社區扎根）
+              cream: '#FDFBF7',    // 溫潤米白底色
+              peach: '#FDE8D7',    // 培愛布條暖橘漸層底
+              line: '#E4E4E7',     // 細緻邊框灰
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* 飛心飄浮微動畫（呼應培愛LOGO飛心意象） */
+    @keyframes floatHeart {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-7px) rotate(4deg); }
+    }
+    .animate-heart-slow {
+      animation: floatHeart 4.5s ease-in-out infinite;
+    }
+    .animate-heart-delay {
+      animation: floatHeart 5.5s ease-in-out 1.4s infinite;
+    }
+    /* 左上角協會字標：圓體灰字，「培愛」放大、愛字中心一顆紅心 */
+    .brand-wordmark {
+      font-family: 'Huninn', 'Noto Sans TC', sans-serif;
+      color: #5F5F5F;
+      letter-spacing: 0.04em;
+    }
+    .brand-heart {
+      position: absolute;
+      left: 50%;
+      top: 54%;
+      width: 0.36em;
+      height: 0.33em;
+      transform: translate(-50%, -50%);
+      overflow: visible;
+    }
+    /* 主視覺背景影片：滿版填滿、不變形 */
+    .hero-poster {
+      background: #3F3F46 url("assets/hero-poster.jpg") center / cover no-repeat;
+    }
+    .hero-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .hero-video.is-active { opacity: 1; }
+    .hero-overlay {
+      background:
+        radial-gradient(ellipse at center, rgba(20, 15, 12, 0) 45%, rgba(20, 15, 12, 0.3) 100%),
+        linear-gradient(to top, rgba(20, 15, 12, 0.5) 0%, rgba(20, 15, 12, 0.1) 55%, rgba(20, 15, 12, 0.15) 100%),
+        rgba(20, 15, 12, 0.25);
+    }
+    /* 使用者開啟「減少動態效果」：隱藏影片，改顯示封面圖 */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-video { display: none; }
+      .animate-heart-slow, .animate-heart-delay { animation: none; }
+    }
+    /* 下拉選單顯示控制 */
+    .nav-dropdown:hover .nav-dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    /* 服務圓環：照片上的品牌色遮罩，滑過時變淡露出照片 */
+    .svc-quad .svc-tint { opacity: 0.72; transition: opacity 0.3s ease; }
+    .svc-quad:hover .svc-tint { opacity: 0.45; }
+    .svc-quad .svc-square {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .svc-quad:hover .svc-square {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .svc-quad .svc-clip { transition: opacity 0.3s ease; }
+    .svc-quad:hover .svc-clip { opacity: 0; }
+  </style>
+</head>
+<body class="bg-peiai-cream text-[#27272A] font-sans antialiased selection:bg-peiai-red/15 selection:text-peiai-red">
+
+  <!-- ==================== 1. 頂部導覽列 (Header - 培愛愛心樹識別 + 5大導覽) ==================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-peiai-line shadow-2xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      
+      <!-- 左側：培愛愛心樹 LOGO + 協會全銜 -->
+      <button onclick="switchPage('home')" class="flex items-center gap-3 text-left group cursor-pointer focus:outline-none">
+        <div class="w-12 h-12 rounded-xl bg-peiai-cream border border-peiai-line flex items-center justify-center shrink-0 group-hover:border-peiai-red/40 transition-colors">
+          <img src="assets/heart-tree.png" alt="" class="w-10 h-10 object-contain mix-blend-multiply" aria-hidden="true" />
+        </div>
+        <div class="brand-wordmark">
+          <span class="block text-xs sm:text-sm leading-none mb-1">社團法人</span>
+          <span class="flex items-start text-lg sm:text-xl leading-none whitespace-nowrap">
+            中華<span class="text-[1.45em] leading-none">培</span><span class="relative inline-block text-[1.45em] leading-none">愛<svg class="brand-heart" viewBox="0 0 24 22" aria-hidden="true"><path d="M12 21S2 14.5 2 7.8C2 4.6 4.5 2 7.6 2c1.9 0 3.5 1 4.4 2.5C12.9 3 14.5 2 16.4 2 19.5 2 22 4.6 22 7.8 22 14.5 12 21 12 21Z" fill="#D92323" stroke="#FFFFFF" stroke-width="2.5"/></svg></span>全人關懷協會
+          </span>
+        </div>
+      </button>
+
+      <!-- 右側：桌機版 5 大主選單 -->
+      <nav class="hidden lg:flex items-center space-x-1 text-[15px] font-medium text-peiai-trunk">
+        <!-- 1. 關於我們 (含下拉) -->
+        <div class="relative nav-dropdown">
+          <button onclick="switchPage('about', 'intro')" class="px-3.5 py-2 rounded-lg hover:bg-peiai-peach/50 hover:text-peiai-red transition-colors flex items-center gap-1 cursor-pointer">
+            <span>關於我們</span>
+            <span class="text-xs text-zinc-400">▾</span>
+          </button>
+          <div class="nav-dropdown-menu opacity-0 invisible translate-y-1 transition-all duration-200 absolute left-0 top-full pt-1 w-40 z-50">
+            <div class="bg-white rounded-xl border border-peiai-line shadow-lg py-1.5">
+              <button onclick="switchPage('about', 'intro')" class="w-full text-left px-4 py-2 text-sm hover:bg-peiai-cream hover:text-peiai-red transition-colors cursor-pointer">協會簡介與理念</button>
+              <button onclick="switchPage('about', 'org')" class="w-full text-left px-4 py-2 text-sm hover:bg-peiai-cream hover:text-peiai-red transition-colors cursor-pointer">組織架構</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 服務內容 -->
+        <button onclick="switchPage('services', 'all')" class="px-3.5 py-2 rounded-lg hover:bg-peiai-peach/50 hover:text-peiai-red transition-colors cursor-pointer">
+          服務內容
+        </button>
+
+        <!-- 3. 活動回顧 (含下拉：每月成果 / 影音專區) -->
+        <div class="relative nav-dropdown">
+          <button onclick="switchPage('review', 'monthly')" class="px-3.5 py-2 rounded-lg hover:bg-peiai-peach/50 hover:text-peiai-red transition-colors flex items-center gap-1 cursor-pointer">
+            <span>活動回顧</span>
+            <span class="text-xs text-zinc-400">▾</span>
+          </button>
+          <div class="nav-dropdown-menu opacity-0 invisible translate-y-1 transition-all duration-200 absolute left-0 top-full pt-1 w-44 z-50">
+            <div class="bg-white rounded-xl border border-peiai-line shadow-lg py-1.5">
+              <button onclick="switchPage('review', 'monthly')" class="w-full text-left px-4 py-2 text-sm hover:bg-peiai-cream hover:text-peiai-red transition-colors cursor-pointer">每月成果（一起夢想）</button>
+              <button onclick="switchPage('review', 'videos')" class="w-full text-left px-4 py-2 text-sm hover:bg-peiai-cream hover:text-peiai-red transition-colors cursor-pointer">影音專區（YT清單）</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 支持我們 -->
+        <button onclick="switchPage('support')" class="px-3.5 py-2 rounded-lg hover:bg-peiai-peach/50 hover:text-peiai-red transition-colors cursor-pointer">
+          支持我們
+        </button>
+
+        <!-- 5. 我要當志工 -->
+        <button onclick="switchPage('volunteer')" class="ml-2 px-4 py-2 rounded-lg bg-peiai-red text-white font-semibold hover:bg-red-700 transition-colors shadow-xs cursor-pointer">
+          我要當志工
+        </button>
+      </nav>
+
+      <!-- 手機版選單按鈕 -->
+      <button onclick="toggleMobileMenu()" aria-label="開啟主選單" class="lg:hidden p-2.5 rounded-lg border border-peiai-line text-peiai-trunk hover:bg-peiai-cream">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- 手機版展開選單 -->
+    <div id="mobileMenu" class="hidden lg:hidden bg-white border-t border-peiai-line px-4 py-4 space-y-1.5 shadow-lg">
+      <button onclick="switchPage('home'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg font-medium hover:bg-peiai-cream">回到首頁</button>
+      <div class="pl-3 border-l-2 border-peiai-peach space-y-1">
+        <div class="text-xs font-bold text-zinc-400 px-2 pt-1">關於我們</div>
+        <button onclick="switchPage('about', 'intro'); toggleMobileMenu()" class="block w-full text-left px-2 py-1.5 text-sm hover:text-peiai-red">協會簡介與理念</button>
+        <button onclick="switchPage('about', 'org'); toggleMobileMenu()" class="block w-full text-left px-2 py-1.5 text-sm hover:text-peiai-red">組織架構</button>
+      </div>
+      <button onclick="switchPage('services', 'all'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg font-medium hover:bg-peiai-cream">服務內容（四大族群）</button>
+      <div class="pl-3 border-l-2 border-peiai-peach space-y-1">
+        <div class="text-xs font-bold text-zinc-400 px-2 pt-1">活動回顧</div>
+        <button onclick="switchPage('review', 'monthly'); toggleMobileMenu()" class="block w-full text-left px-2 py-1.5 text-sm hover:text-peiai-red">每月成果</button>
+        <button onclick="switchPage('review', 'videos'); toggleMobileMenu()" class="block w-full text-left px-2 py-1.5 text-sm hover:text-peiai-red">影音專區</button>
+      </div>
+      <button onclick="switchPage('support'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 rounded-lg font-medium hover:bg-peiai-cream">支持我們</button>
+      <button onclick="switchPage('volunteer'); toggleMobileMenu()" class="block w-full text-center px-3 py-2.5 rounded-lg bg-peiai-red text-white font-semibold mt-2">我要當志工</button>
+    </div>
+  </header>
+
+  <!-- ==================== 頁面容器 A：主頁面 (HOME VIEW) ==================== -->
+  <main id="page-home" class="page-view block">
+
+    <!-- 1. 主視覺區 (Hero Banner：背景影片輪播) -->
+    <section class="hero relative w-full h-[470px] sm:h-[530px] lg:h-[570px] bg-peiai-trunk overflow-hidden">
+      <!-- 封面圖底層：影片載入前、或使用者開啟「減少動態效果」時顯示 -->
+      <div class="hero-poster absolute inset-0" aria-hidden="true"></div>
+
+      <!-- 背景影片輪播：依序播放，播完淡入下一支；增減影片只要增減 <video> -->
+      <video class="hero-video is-active absolute inset-0" muted playsinline preload="auto"
+             aria-hidden="true" tabindex="-1">
+        <source src="assets/長輩據點.mp4" type="video/mp4" />
+      </video>
+      <video class="hero-video absolute inset-0" muted playsinline preload="metadata"
+             aria-hidden="true" tabindex="-1">
+        <source src="assets/真愛營.mp4" type="video/mp4" />
+      </video>
+      <video class="hero-video absolute inset-0" muted playsinline preload="metadata"
+             aria-hidden="true" tabindex="-1">
+        <source src="assets/兒童營繪本.mp4" type="video/mp4" />
+      </video>
+
+      <!-- 半透明深色遮罩＋暖色暗角，確保白色文字清晰 -->
+      <div class="hero-overlay absolute inset-0 z-10" aria-hidden="true"></div>
+
+
+      <!-- 主視覺文案 -->
+      <div class="relative z-20 max-w-6xl mx-auto px-6 sm:px-8 h-full flex flex-col justify-end pb-16 sm:pb-20">
+        <h1 class="text-3xl sm:text-5xl lg:text-[54px] font-bold text-white tracking-tight leading-tight mb-5">
+          用愛陪伴，以愛培力
+        </h1>
+
+        <p class="text-base sm:text-lg text-zinc-100 max-w-2xl leading-relaxed">
+          陪伴兒少、青年、家庭到長輩，在社區建立永續轉動的愛的網絡。
+        </p>
+
+      </div>
+    </section>
+
+    <!-- 2. 關於我們 (首頁精華版 + READ MORE 按鈕) -->
+    <section class="py-16 sm:py-20 bg-white border-b border-peiai-line">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <!-- 左側：愛心樹視覺意象卡 -->
+          <div class="lg:col-span-5">
+            <div class="rounded-2xl bg-gradient-to-b from-peiai-cream to-peiai-peach/60 border border-peiai-line p-8 text-center relative overflow-hidden">
+              <img src="assets/heart-tree.png" alt="培愛愛心樹：向下扎根、向上結出愛的果實" class="w-56 h-56 sm:w-64 sm:h-64 mx-auto mb-4 object-contain mix-blend-multiply" loading="lazy" />
+              <p class="text-sm font-bold text-peiai-trunk">向下扎根社區・向上結出愛的果實</p>
+              <p class="text-xs text-zinc-500 mt-1">陪伴家庭成長｜培植健康世代｜營造活力社區｜培育時代領袖</p>
+            </div>
+          </div>
+
+          <!-- 右側：關於培愛文案與 READ MORE -->
+          <div class="lg:col-span-7">
+            <span class="inline-block text-xs font-bold tracking-widest text-peiai-red uppercase mb-2">ABOUT US</span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-peiai-trunk mb-4">關於培愛｜深耕社區的全人關懷平台</h2>
+            <div class="w-12 h-1 bg-peiai-red rounded-full mb-6"></div>
+            <div class="space-y-4 text-base text-zinc-600 leading-relaxed mb-6">
+              <p>社團法人中華培愛全人關懷協會2011年自新北新莊起步，將服務足跡拓展至全台多個社區。我們以<strong class="text-peiai-trunk font-semibold">「用愛陪伴，以愛培力」</strong>為核心，針對兒童青少年、青年、家庭與長輩四大族群，提供不中斷的全齡關懷支持。</p>
+              <p>協會積極串聯家庭、學校、醫療與社福網絡，建構永續的社區支持平台。我們不僅回應眼前的需要，更致力於培力每一位受助者成為助人者，讓愛的循環在社區持續發生。</p>
+            </div>
+            <button onclick="switchPage('about', 'intro')" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-peiai-trunk text-peiai-trunk font-bold text-sm hover:bg-peiai-trunk hover:text-white transition-colors cursor-pointer">
+              <span>了解更多</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 3. 全齡陪伴｜四大服務族群 (單一張循環四象限主圖呈現，呼應簡報與介紹影片) -->
+    <section class="py-16 sm:py-20 bg-peiai-cream border-b border-peiai-line">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <div>
+            <span class="inline-block text-xs font-bold tracking-widest text-peiai-amber uppercase mb-2">OUR SERVICES</span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-peiai-trunk">全齡陪伴｜四大服務族群</h2>
+          </div>
+        </div>
+
+        <!-- 四象限服務圓環：品牌四色 + 照片，點擊跳轉對應服務族群 -->
+        <div class="flex justify-center py-4">
+          <div class="svc-ring relative w-full max-w-[460px]">
+          <svg class="w-full h-auto select-none drop-shadow-sm" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="四大服務：兒少服務、青年服務、長輩服務、家庭服務">
+            <defs>
+                <clipPath id="clip-children"><path d="M210 210 H30 A180 180 0 0 1 210 30 Z" /></clipPath>
+                <clipPath id="clip-youth"><path d="M210 210 V30 A180 180 0 0 1 390 210 Z" /></clipPath>
+                <clipPath id="clip-senior"><path d="M210 210 V390 A180 180 0 0 1 30 210 Z" /></clipPath>
+                <clipPath id="clip-family"><path d="M210 210 H390 A180 180 0 0 1 210 390 Z" /></clipPath>
+                <clipPath id="sq-children"><rect x="30" y="30" width="180" height="180" rx="18" /></clipPath>
+                <clipPath id="sq-youth"><rect x="210" y="30" width="180" height="180" rx="18" /></clipPath>
+                <clipPath id="sq-senior"><rect x="30" y="210" width="180" height="180" rx="18" /></clipPath>
+                <clipPath id="sq-family"><rect x="210" y="210" width="180" height="180" rx="18" /></clipPath>
+            </defs>
+
+              <!-- 兒少服務（照片：assets/services/children.png） -->
+              <g onclick="switchPage('services', 'children')" class="svc-quad cursor-pointer">
+                <g class="svc-square">
+                  <image href="assets/services/children.png" x="30" y="30" width="180" height="180" preserveAspectRatio="xMidYMid slice" clip-path="url(#sq-children)" />
+                  <rect x="30" y="30" width="180" height="180" rx="18" fill="#F39800" class="svc-tint" />
+                </g>
+                <g class="svc-clip" clip-path="url(#clip-children)">
+  <image href="assets/services/children.png" x="30" y="30" width="180" height="180" preserveAspectRatio="xMidYMid slice" />
+                  <path d="M210 210 H30 A180 180 0 0 1 210 30 Z" fill="#F39800" class="svc-tint" />
+                </g>
+                <text x="132" y="128" text-anchor="middle" fill="#FFFFFF" font-size="24" font-weight="700" letter-spacing="2">兒少</text>
+                <text x="132" y="160" text-anchor="middle" fill="#FFFFFF" font-size="24" font-weight="700" letter-spacing="2">服務</text>
+              </g>
+
+              <!-- 青年服務（照片換成 assets/services/youth.jpg） -->
+              <g onclick="switchPage('services', 'youth')" class="svc-quad cursor-pointer">
+                <g class="svc-square">
+                  <image href="assets/services/youth.png" x="210" y="30" width="180" height="180" preserveAspectRatio="xMidYMid slice" clip-path="url(#sq-youth)" />
+                  <rect x="210" y="30" width="180" height="180" rx="18" fill="#E4007F" class="svc-tint" />
+                </g>
+                <g class="svc-clip" clip-path="url(#clip-youth)">
+  <image href="assets/services/youth.png" x="210" y="30" width="180" height="180" preserveAspectRatio="xMidYMid slice" />
+                  <path d="M210 210 V30 A180 180 0 0 1 390 210 Z" fill="#E4007F" class="svc-tint" />
+                </g>
+                <text x="288" y="128" text-anchor="middle" fill="#FFFFFF" font-size="24" font-weight="700" letter-spacing="2">青年</text>
+                <text x="288" y="160" text-anchor="middle" fill="#FFFFFF" font-size="24" font-weight="700" letter-spacing="2">服務</text>
+              </g>
+
+              <!-- 長輩服務（照片換成 assets/services/senior.jpg） -->
+              <g onclick="switchPage('services', 'senior')" class="svc-quad cursor-pointer">
+                <g class="svc-square">
+                  <image href="assets/services/elders.png" x="30" y="210" width="180" height="180" preserveAspectRatio="xMidYMid slice" clip-path="url(#sq-senior)" />
+                  <rect x="30" y="210" width="180" height="180" rx="18" fill="#009944" class="svc-tint" />
+                </g>
+                <g class="svc-clip" clip-path="url(#clip-senior)">
+  <image href="assets/services/elders.png" x="30" y="210" width="180" height="180" preserveAspectRatio="xMidYMid slice" />
+                  <path d="M210 210 V390 A180 180 0 0 1 30 210 Z" fill="#009944" class="svc-tint" />
+                </g>
+                <text x="132" y="292" text-anchor="middle" fill="#FFFFFF" font-size="24" font-weight="700" letter-spacing="2">長輩</text>
+                <text x="132" y="324" text-anchor="middle" fill="#FFFFFF" font-size="24" font-weight="700" letter-spacing="2">服務</text>
+              </g>
+
+              <!-- 家庭服務（照片：assets/services/family.png） -->
+              <g onclick="switchPage('services', 'family')" class="svc-quad cursor-pointer">
+                <g class="svc-square">
+                  <image href="assets/services/family.png" x="210" y="210" width="180" height="180" preserveAspectRatio="xMidYMid slice" clip-path="url(#sq-family)" />
+                  <rect x="210" y="210" width="180" height="180" rx="18" fill="#D92323" class="svc-tint" />
+                </g>
+                <g class="svc-clip" clip-path="url(#clip-family)">
+  <image href="assets/services/family.png" x="210" y="210" width="180" height="180" preserveAspectRatio="xMidYMid slice" />
+                  <path d="M210 210 H390 A180 180 0 0 1 210 390 Z" fill="#D92323" class="svc-tint" />
+                </g>
+                <text x="288" y="292" text-anchor="middle" fill="#FFFFFF" font-size="24" font-weight="700" letter-spacing="2">家庭</text>
+                <text x="288" y="324" text-anchor="middle" fill="#FFFFFF" font-size="24" font-weight="700" letter-spacing="2">服務</text>
+              </g>
+
+            <!-- 象限分隔白線 -->
+            <path d="M210 26 V394 M26 210 H394" stroke="#FFFFFF" stroke-width="8" class="pointer-events-none" />
+
+            <!-- 中央循環徽章 -->
+            <g class="pointer-events-none">
+              <circle cx="210" cy="210" r="44" fill="#FFFFFF" />
+              <circle cx="210" cy="210" r="44" stroke="#FFF9F5" stroke-width="6" />
+              <path d="M186 204 A25 25 0 0 1 232 198" stroke="#4A4A4A" stroke-width="5" stroke-linecap="round" />
+              <polygon points="239,205 225,205 234,192" fill="#4A4A4A" />
+              <path d="M234 216 A25 25 0 0 1 188 222" stroke="#4A4A4A" stroke-width="5" stroke-linecap="round" />
+              <polygon points="181,215 195,215 186,228" fill="#4A4A4A" />
+              <path d="M210 219C210 219 202.5 213.5 202.5 208.8C202.5 206.3 204.4 204.4 206.8 204.4C208.3 204.4 209.5 205.2 210 206.2C210.5 205.2 211.7 204.4 213.2 204.4C215.6 204.4 217.5 206.3 217.5 208.8C217.5 213.5 210 219 210 219Z" fill="#D92323" />
+            </g>
+          </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 支持我們 CTA 橫幅 (移除多餘副文，保留聚焦標題與行動按鈕) -->
+    <section class="relative py-16 sm:py-20 bg-gradient-to-r from-[#FFF8F1] via-[#FDE8D7] to-[#FAD3B4] border-b border-peiai-line overflow-hidden">
+      <!-- 右側飄散飛心裝飾 -->
+      <svg class="hidden sm:block absolute right-6 bottom-2 w-72 h-48 opacity-85 animate-heart-delay pointer-events-none" viewBox="0 0 280 180" fill="none">
+        <path d="M245 38C245 38 228 26 228 15C228 9 233 4 239 4C242.5 4 244.4 5.8 245 7.5C245.6 5.8 247.5 4 251 4C257 4 262 9 262 15C262 26 245 38 245 38Z" fill="#DC2626"/>
+        <path d="M195 72C195 72 183 63 183 55C183 50.5 186.5 47 191 47C193.5 47 194.6 48.3 195 49.6C195.4 48.3 196.5 47 199 47C203.5 47 207 50.5 207 55C207 63 195 72 195 72Z" fill="#F59E0B"/>
+        <path d="M150 105C150 105 140 97.5 140 91C140 87.5 142.8 84.5 146.5 84.5C148.5 84.5 149.6 85.6 150 86.8C150.4 85.6 151.5 84.5 153.5 84.5C157.2 84.5 160 87.5 160 91C160 97.5 150 105 150 105Z" fill="#DB2777"/>
+        <path d="M105 132C100 126 94 127.5 95.5 133.5C97 137 103 137 105 132Z" fill="#16A34A"/>
+        <path d="M105 132C110 126 116 127.5 114.5 133.5C113 137 107 137 105 132Z" fill="#16A34A"/>
+      </svg>
+
+      <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 text-center">
+        <div class="flex flex-wrap justify-center gap-4 mb-5">
+          <a href="https://510.org.tw/donations/281MM4" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-peiai-red text-white font-bold text-base hover:bg-red-700 transition-all shadow-md cursor-pointer">
+            <span>支持我們 ↗</span>
+          </a>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-bold text-peiai-trunk leading-snug">
+          您的每一份支持，都是社區愛與希望持續轉動的關鍵力量
+        </h2>
+      </div>
+    </section>
+
+    <!-- 5. 最新消息與服務動態 (精簡標題與篩選分類，移除方案A文字與招生預告標籤) -->
+    <section class="py-16 sm:py-20 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+          <div>
+            <span class="inline-block text-xs font-bold tracking-widest text-peiai-green uppercase mb-2">LATEST UPDATES</span>
+            <h2 class="text-2xl sm:text-3xl font-bold text-peiai-trunk">最新消息與服務動態</h2>
+          </div>
+
+          <!-- 分類篩選標籤（保留 ALL、每月成果報告、影音精選） -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="filterHomeNews('ALL', this)" class="home-news-tab px-4 py-2 rounded-lg text-xs sm:text-sm font-bold bg-peiai-trunk text-white transition-colors cursor-pointer">
+              ALL
+            </button>
+            <button onclick="filterHomeNews('每月成果報告', this)" class="home-news-tab px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-peiai-cream text-zinc-600 border border-peiai-line hover:border-peiai-trunk transition-colors cursor-pointer">
+              每月成果報告
+            </button>
+            <button onclick="filterHomeNews('影音精選', this)" class="home-news-tab px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold bg-peiai-cream text-zinc-600 border border-peiai-line hover:border-peiai-trunk transition-colors cursor-pointer">
+              影音精選
+            </button>
+          </div>
+        </div>
+
+        <!-- 三欄動態卡片 -->
+        <div id="homeNewsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <!-- JS 動態渲染 -->
+        </div>
+
+        <!-- 底部導引按鈕 -->
+        <div class="flex justify-end pt-6 border-t border-peiai-line">
+          <button onclick="switchPage('review', 'monthly')" class="px-6 py-2.5 rounded-xl bg-peiai-cream border border-peiai-line text-peiai-trunk font-bold text-sm hover:bg-peiai-peach/50 transition-colors cursor-pointer">
+            查看更多每月成果 →
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== 頁面容器 B：關於我們 (ABOUT VIEW：簡介 / 組織架構) ==================== -->
+  <section id="page-about" class="page-view hidden py-12 sm:py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <!-- 麵包屑與分頁切換 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-peiai-line">
+        <div>
+          <div class="text-xs text-zinc-400 mb-1">首頁 / 關於我們</div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-peiai-trunk">認識中華培愛全人關懷協會</h1>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="switchAboutTab('intro')" id="aboutTabIntro" class="px-4 py-2 rounded-lg text-sm font-bold bg-peiai-red text-white cursor-pointer">協會簡介與理念</button>
+          <button onclick="switchAboutTab('org')" id="aboutTabOrg" class="px-4 py-2 rounded-lg text-sm font-semibold bg-peiai-cream text-zinc-600 border border-peiai-line cursor-pointer">組織架構</button>
+        </div>
+      </div>
+
+      <!-- 子分頁 1：簡介 -->
+      <div id="about-sub-intro" class="space-y-12">
+        <!-- 緣起 -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <div class="md:col-span-7 space-y-4">
+            <h2 class="text-xl font-bold text-peiai-trunk">培愛緣起｜公寓大廈裡的幸福花園</h2>
+            <p class="text-sm sm:text-base text-zinc-600 leading-relaxed">
+              社團法人中華培愛全人關懷協會座落於新北市新莊區中正路鳳翔社區，自2011年（民國100年）立案以來，以「用愛陪伴、以愛培力；愛在社區，老有所用，老有所依」為初衷。早期據點位於公寓大廈內，志工與夥伴逐家逐戶拜訪鄰里，並攜手輔仁大學兒童與家庭學系等專業資源，從最初僅有 10 位長輩、2 個時段，逐步成長為涵蓋兒少、青年、家庭與長輩的全人關懷平台。
+            </p>
+          </div>
+          <div class="md:col-span-5">
+            <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=800&q=80"
+                 onerror="this.src='https://placehold.co/800x550/FDE8D7/3F3F46?text=Pei-Ai+Community'"
+                 alt="培愛社區關懷團隊"
+                 class="w-full aspect-4/3 object-cover rounded-2xl border border-peiai-line" />
+          </div>
+        </div>
+
+        <!-- 四大宗旨（齒輪比喻） -->
+        <div>
+          <h2 class="text-xl font-bold text-peiai-trunk mb-2">四大核心宗旨｜環環相扣、永不停息的愛的齒輪</h2>
+          <p class="text-sm text-zinc-500 mb-6">每個服務面向如同相輔相成的齒輪，當各年齡層運作順暢，社區便能形成堅固的愛的網絡。</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="p-5 rounded-xl bg-peiai-cream border-t-4 border-t-peiai-red border border-peiai-line">
+              <h3 class="font-bold text-peiai-trunk mb-2">1. 陪伴家庭成長</h3>
+              <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed">依循家庭生命週期，照顧家庭中各年齡層成員，陪伴度過新婚、育兒到中老年的每個階段挑戰。</p>
+            </div>
+            <div class="p-5 rounded-xl bg-peiai-cream border-t-4 border-t-peiai-amber border border-peiai-line">
+              <h3 class="font-bold text-peiai-trunk mb-2">2. 培植健康世代</h3>
+              <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed">提供社區兒童及青少年課業與生活陪伴，在愛與安全感中形塑健全品格與自信。</p>
+            </div>
+            <div class="p-5 rounded-xl bg-peiai-cream border-t-4 border-t-peiai-green border border-peiai-line">
+              <h3 class="font-bold text-peiai-trunk mb-2">3. 營造活力社區</h3>
+              <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed">連結政府、學校、醫療與民間資源，建立在地社區照顧關懷據點，促進青銀共融。</p>
+            </div>
+            <div class="p-5 rounded-xl bg-peiai-cream border-t-4 border-t-peiai-magenta border border-peiai-line">
+              <h3 class="font-bold text-peiai-trunk mb-2">4. 培育時代領袖</h3>
+              <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed">鼓勵社區居民、青年與長輩從「被服務者」蛻變為「服務者」，成為穩定社區的永續力量。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 四階段培力路徑 -->
+        <div class="p-6 sm:p-8 rounded-2xl bg-peiai-trunk text-white">
+          <h2 class="text-lg sm:text-xl font-bold mb-6">培育時代領袖｜從被服務者到服務者的轉化路徑</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-sm">
+            <div class="p-4 rounded-xl bg-white/10">
+              <div class="text-peiai-amber font-bold text-xs mb-1">STEP 01</div>
+              <div class="font-bold mb-1">被服務者</div>
+              <p class="text-xs text-zinc-300">從各個服務場域接觸家庭與居民，先安心接受關懷與支持。</p>
+            </div>
+            <div class="p-4 rounded-xl bg-white/10">
+              <div class="text-peiai-green font-bold text-xs mb-1">STEP 02</div>
+              <div class="font-bold mb-1">志工參與</div>
+              <p class="text-xs text-zinc-300">透過培力與鼓勵，受助者轉身成為志工，開始回饋社區。</p>
+            </div>
+            <div class="p-4 rounded-xl bg-white/10">
+              <div class="text-peiai-magenta font-bold text-xs mb-1">STEP 03</div>
+              <div class="font-bold mb-1">長期深耕與帶領</div>
+              <p class="text-xs text-zinc-300">受訓成為高齡種子講師、營隊輔導員或夫妻成長營小組長。</p>
+            </div>
+            <div class="p-4 rounded-xl bg-white/10">
+              <div class="text-white font-bold text-xs mb-1">STEP 04</div>
+              <div class="font-bold mb-1">全時間投入</div>
+              <p class="text-xs text-zinc-300">對社區家庭懷抱負擔，加入培愛全職團隊，持續倍增影響力。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 榮譽肯定與資源連結 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-6 rounded-2xl border border-peiai-line bg-peiai-cream/60">
+            <h3 class="font-bold text-peiai-trunk mb-3">榮譽與評鑑肯定</h3>
+            <ul class="space-y-2 text-sm text-zinc-600 list-disc pl-5">
+              <li>衛生福利部「社區金點獎」金點之星團體獎</li>
+              <li>新北市政府領航金獎（銀獎）</li>
+              <li>新北市政府績優老人共餐點「金好味獎」</li>
+              <li>新北市政府社會福利暨綜合類志願服務運用單位評鑑「溫馨助人獎」</li>
+              <li>新北市政府社區陪伴站「金站獎」</li>
+            </ul>
+          </div>
+          <div class="p-6 rounded-2xl border border-peiai-line bg-peiai-cream/60">
+            <h3 class="font-bold text-peiai-trunk mb-3">跨界資源連結網絡</h3>
+            <ul class="space-y-2 text-sm text-zinc-600 list-disc pl-5">
+              <li><strong>官方資源：</strong>衛生福利部、新北市政府社會局、新北市家庭教育中心、新莊區公所</li>
+              <li><strong>大專院校：</strong>輔仁大學兒童與家庭學系、織品服裝學系、聖愛生命教育推廣服務隊、長庚大學</li>
+              <li><strong>醫療與社福：</strong>輔大醫院、長庚醫院、亞東醫院、弘道老人福利基金會、雙福基金會、三之三文教機構</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 子分頁 2：組織架構 -->
+      <div id="about-sub-org" class="hidden space-y-8">
+        <div class="p-6 sm:p-8 rounded-2xl border border-peiai-line bg-peiai-cream/50 text-center">
+          <h2 class="text-xl font-bold text-peiai-trunk mb-2">社團法人中華培愛全人關懷協會｜組織架構圖</h2>
+          <p class="text-sm text-zinc-500 mb-8">內政部立案全國性社團法人（2011年／民國100年立案）</p>
+
+          <!-- 視覺化組織樹狀圖 -->
+          <div class="max-w-3xl mx-auto space-y-4">
+            <div class="inline-block px-8 py-3 rounded-xl bg-peiai-trunk text-white font-bold shadow-xs">
+              會員大會 ／ 理監事會
+            </div>
+            <div class="h-5 w-0.5 bg-zinc-300 mx-auto"></div>
+            <div class="inline-block px-8 py-3 rounded-xl bg-peiai-red text-white font-bold shadow-xs">
+              理事長（督導會務發展）
+            </div>
+            <div class="h-5 w-0.5 bg-zinc-300 mx-auto"></div>
+            <div class="inline-block px-8 py-3 rounded-xl bg-white border-2 border-peiai-trunk text-peiai-trunk font-bold">
+              秘書長（統籌專案執行與跨界資源連結）
+            </div>
+            <div class="h-5 w-0.5 bg-zinc-300 mx-auto"></div>
+
+            <!-- 四大執行部門 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2 text-left">
+              <div class="p-4 rounded-xl bg-white border border-peiai-line border-t-4 border-t-peiai-green">
+                <div class="font-bold text-peiai-trunk text-sm mb-1">社區長青據點部</div>
+                <p class="text-xs text-zinc-600 leading-relaxed">社區照顧關懷據點、銀髮俱樂部、健康促進、共餐與高齡志工培力。</p>
+              </div>
+              <div class="p-4 rounded-xl bg-white border border-peiai-line border-t-4 border-t-peiai-amber">
+                <div class="font-bold text-peiai-trunk text-sm mb-1">兒少關懷部</div>
+                <p class="text-xs text-zinc-600 leading-relaxed">國小／國中課後照顧班、暑期夏日學園、寒暑假生命教育營。</p>
+              </div>
+              <div class="p-4 rounded-xl bg-white border border-peiai-line border-t-4 border-t-peiai-magenta">
+                <div class="font-bold text-peiai-trunk text-sm mb-1">家庭與青年發展部</div>
+                <p class="text-xs text-zinc-600 leading-relaxed">夫妻成長營、親密之旅、幸福繪本館、大專服務學習與真愛營。</p>
+              </div>
+              <div class="p-4 rounded-xl bg-white border border-peiai-line border-t-4 border-t-zinc-500">
+                <div class="font-bold text-peiai-trunk text-sm mb-1">行政與資源發展組</div>
+                <p class="text-xs text-zinc-600 leading-relaxed">財務責信管理、志工訓練行政、公部門與公益專案合作窗口。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 頁面容器 C：服務內容 (SERVICES VIEW：四個族群) ==================== -->
+  <section id="page-services" class="page-view hidden py-12 sm:py-16 bg-peiai-cream">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="mb-8">
+        <div class="text-xs text-zinc-400 mb-1">首頁 / 服務內容</div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-peiai-trunk mb-2">四大族群全人關懷服務</h1>
+        <p class="text-sm sm:text-base text-zinc-600">涵蓋家庭生命週期各階段，提供有溫度且延續性的陪伴與培力。</p>
+      </div>
+
+      <!-- 快速篩選標籤 -->
+      <div class="flex flex-wrap gap-2 mb-10">
+        <button onclick="filterServiceSection('all', this)" class="srv-filter-btn px-4 py-2 rounded-lg text-sm font-bold bg-peiai-trunk text-white cursor-pointer">全部族群</button>
+        <button onclick="filterServiceSection('children', this)" class="srv-filter-btn px-4 py-2 rounded-lg text-sm font-semibold bg-white text-zinc-700 border border-peiai-line cursor-pointer">兒童與青少年</button>
+        <button onclick="filterServiceSection('youth', this)" class="srv-filter-btn px-4 py-2 rounded-lg text-sm font-semibold bg-white text-zinc-700 border border-peiai-line cursor-pointer">青年與大專生</button>
+        <button onclick="filterServiceSection('family', this)" class="srv-filter-btn px-4 py-2 rounded-lg text-sm font-semibold bg-white text-zinc-700 border border-peiai-line cursor-pointer">婚姻與家庭</button>
+        <button onclick="filterServiceSection('senior', this)" class="srv-filter-btn px-4 py-2 rounded-lg text-sm font-semibold bg-white text-zinc-700 border border-peiai-line cursor-pointer">社區長輩</button>
+      </div>
+
+      <div class="space-y-10">
+        <!-- 1. 兒童與青少年 -->
+        <article data-srv-group="children" class="bg-white rounded-2xl border border-peiai-line p-6 sm:p-8 shadow-2xs">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div class="lg:col-span-5">
+              <img src="assets/services/children.png"
+                   onerror="this.src='https://placehold.co/800x600/F59E0B/FFFFFF?text=Children+Care'"
+                   alt="兒童與青少年課後照顧"
+                   class="w-full aspect-4/3 object-cover rounded-xl border border-peiai-line" />
+            </div>
+            <div class="lg:col-span-7 space-y-4">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-peiai-amber/15 text-peiai-amber">族群一｜兒童與青少年</span>
+              <h2 class="text-xl sm:text-2xl font-bold text-peiai-trunk">課業陪伴、品格形塑與青少年培力</h2>
+              <ul class="text-sm text-zinc-600 space-y-1.5 list-disc pl-5">
+                <li><strong>平日課後照顧班（國小／國中）：</strong>協助雙薪與弱勢家庭孩子完成功課，關注情緒與人際發展。</li>
+                <li><strong>暑期三週「夏日學園」與寒暑假生命教育營：</strong>結合體驗活動與繪本故事，豐富假期學習。</li>
+                <li><strong>聖誕劇團與公開演出：</strong>陪伴孩子站上舞台展現自信，用戲劇把祝福帶給社區。</li>
+              </ul>
+              <div class="p-4 rounded-xl bg-peiai-cream border-l-4 border-l-peiai-amber text-xs sm:text-sm text-zinc-700">
+                <strong>真實生命故事：</strong>許多從小一陪伴到小六的孩子，升上國高中後主動回到夏日學園擔任青少年志工。當看見營隊裡情緒激動的弟弟妹妹時，大哥哥會立刻停下腳步溫柔安撫——他們說：「以前老師怎麼對待我們，我們現在就怎麼對待弟弟妹妹。」
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. 青年與大專生 -->
+        <article data-srv-group="youth" class="bg-white rounded-2xl border border-peiai-line p-6 sm:p-8 shadow-2xs">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div class="lg:col-span-5">
+              <img src="assets/services/youth.png"
+                   onerror="this.src='https://placehold.co/800x600/DB2777/FFFFFF?text=Youth+Service'"
+                   alt="大專青年服務學習"
+                   class="w-full aspect-4/3 object-cover rounded-xl border border-peiai-line" />
+            </div>
+            <div class="lg:col-span-7 space-y-4">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-peiai-magenta/15 text-peiai-magenta">族群二｜青年與大專生</span>
+              <h2 class="text-xl sm:text-2xl font-bold text-peiai-trunk">服務學習實踐與健康親密關係教育</h2>
+              <ul class="text-sm text-zinc-600 space-y-1.5 list-disc pl-5">
+                <li><strong>大專服務學習與聖愛服務隊：</strong>與輔仁大學兒童與家庭學系等團隊合作，帶領大學生走進社區與偏鄉服務。</li>
+                <li><strong>交友戀愛講座與「大專真愛營」：</strong>學習認識真愛、愛之語表達、原生家庭整理與衝突溝通，對未來成家建立健康盼望。</li>
+              </ul>
+              <div class="p-4 rounded-xl bg-peiai-cream border-l-4 border-l-peiai-magenta text-xs sm:text-sm text-zinc-700">
+                <strong>真實生命故事：</strong>曾有一位大學期間迷惘、出席率低的同學，大三加入服務隊並在課後班陪伴孩子後，真實看見孩子的需要，大四立定志向報考教育學程，最終順利考取正式教師，前往花蓮偏鄉實現教育志業。
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. 婚姻與家庭 -->
+        <article data-srv-group="family" class="bg-white rounded-2xl border border-peiai-line p-6 sm:p-8 shadow-2xs">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div class="lg:col-span-5">
+              <img src="assets/services/family.png"
+                   onerror="this.src='https://placehold.co/800x600/DC2626/FFFFFF?text=Family+Care'"
+                   alt="夫妻成長營與家庭教育"
+                   class="w-full aspect-4/3 object-cover rounded-xl border border-peiai-line" />
+            </div>
+            <div class="lg:col-span-7 space-y-4">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-peiai-red/15 text-peiai-red">族群三｜婚姻與家庭</span>
+              <h2 class="text-xl sm:text-2xl font-bold text-peiai-trunk">夫妻成長營、親密之旅與親子繪本基地</h2>
+              <ul class="text-sm text-zinc-600 space-y-1.5 list-disc pl-5">
+                <li><strong>兩天一夜夫妻成長營與親密之旅：</strong>由輔大兒家系專業教授帶領，學習「愛的存款」、情緒調節與關係修復，並培力夫妻成為小組長。</li>
+                <li><strong>幸福 In & Out 繪本館與親職講座：</strong>提供嬰兒按摩、親子共讀與新住民家庭關懷，成為全職父母彼此支持的喘息空間。</li>
+              </ul>
+              <div class="p-4 rounded-xl bg-peiai-cream border-l-4 border-l-peiai-red text-xs sm:text-sm text-zinc-700">
+                <strong>真實生命故事：</strong>一對長期照顧罕見疾病孩子的夫妻，在身心俱疲下幾乎決定離婚，甚至在營隊第二天早上收拾行李準備離開。經小組長分工陪伴與傾聽後，兩人堅持完成課程並學會用新的眼光理解彼此，五年後更回到青年營隊分享見證，成為許多家庭的祝福。
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4. 社區長輩 -->
+        <article data-srv-group="senior" class="bg-white rounded-2xl border border-peiai-line p-6 sm:p-8 shadow-2xs">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div class="lg:col-span-5">
+              <img src="assets/services/elders.png"
+                   onerror="this.src='https://placehold.co/800x600/16A34A/FFFFFF?text=Senior+Club'"
+                   alt="社區照顧關懷據點"
+                   class="w-full aspect-4/3 object-cover rounded-xl border border-peiai-line" />
+            </div>
+            <div class="lg:col-span-7 space-y-4">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-peiai-green/15 text-peiai-green">族群四｜社區長輩</span>
+              <h2 class="text-xl sm:text-2xl font-bold text-peiai-trunk">銀髮俱樂部、健康促進與「贏髮族」志工培力</h2>
+              <ul class="text-sm text-zinc-600 space-y-1.5 list-disc pl-5">
+                <li><strong>據點五大日常服務：</strong>關懷訪視、電話問安、作伙共餐（中島吧檯友善動線）、健康促進運動與醫療諮詢。</li>
+                <li><strong>青銀共融創新方案：</strong>與大學合作「時尚老人走秀」、「生命故事繪本創作」與 VR 科技園藝體驗。</li>
+                <li><strong>高齡志工與千歲不老樂團：</strong>培訓長輩考取肌耐力／自癒力種子講師，走入校園與西門町快閃演出。</li>
+              </ul>
+              <div class="p-4 rounded-xl bg-peiai-cream border-l-4 border-l-peiai-green text-xs sm:text-sm text-zinc-700">
+                <strong>真實生命故事：</strong>90 歲的吳阿嬤年輕時生活不易無緣學音樂，加入據點「千歲不老樂團」擔任鼓手後站上舞台重拾自信；而 97 歲的楊阿嬤在志工長期關懷下走出照顧家人的愁苦，每天喜樂來到據點運動，成為大家最敬愛的班長。
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 頁面容器 D：活動回顧 (REVIEW VIEW：每月成果 / 影音專區) ==================== -->
+  <section id="page-review" class="page-view hidden py-12 sm:py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-peiai-line">
+        <div>
+          <div class="text-xs text-zinc-400 mb-1">首頁 / 活動回顧</div>
+          <h1 class="text-2xl sm:text-3xl font-bold text-peiai-trunk">活動回顧與服務成果</h1>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="switchReviewTab('monthly')" id="reviewTabMonthly" class="px-4 py-2 rounded-lg text-sm font-bold bg-peiai-red text-white cursor-pointer">每月成果（一起夢想）</button>
+          <button onclick="switchReviewTab('videos')" id="reviewTabVideos" class="px-4 py-2 rounded-lg text-sm font-semibold bg-peiai-cream text-zinc-600 border border-peiai-line cursor-pointer">影音專區（YT清單）</button>
+        </div>
+      </div>
+
+      <!-- 子分頁 1：每月成果 -->
+      <div id="review-sub-monthly" class="space-y-10">
+        <!-- 最新月份置頂特寫 -->
+        <div class="rounded-2xl bg-peiai-cream border border-peiai-line p-6 sm:p-8">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-peiai-red text-white">最新月份成果報告｜2026 年 11 月</span>
+            <span class="text-xs text-zinc-500">同步更新自「一起夢想」每月服務紀實</span>
+          </div>
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            <div class="lg:col-span-5">
+              <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=900&q=80"
+                   onerror="this.src='https://placehold.co/900x600/DC2626/FFFFFF?text=2026+Nov+Report'"
+                   alt="2026年11月成果紀錄"
+                   class="w-full aspect-4/3 object-cover rounded-xl border border-peiai-line" />
+            </div>
+            <div class="lg:col-span-7 space-y-3">
+              <h2 class="text-xl sm:text-2xl font-bold text-peiai-trunk">2026年11月服務成果：感恩季青銀共融與聖誕劇排練啟動</h2>
+              <p class="text-sm text-zinc-600 leading-relaxed">
+                本月社區照顧關懷據點穩定服務超過 80 位長輩，完成 40 場健康促進與共餐服務；課後照顧班與聖誕劇團同步進入緊鑼密鼓排練，大專服務隊與兒少一起籌備《七隻小羊》音樂劇，準備在 12 月把溫暖祝福帶進社區。
+              </p>
+              <div class="grid grid-cols-3 gap-3 pt-2">
+                <div class="p-3 rounded-xl bg-white border border-peiai-line text-center">
+                  <div class="text-lg font-bold text-peiai-green">480+</div>
+                  <div class="text-[11px] text-zinc-500">長輩健康促進人次</div>
+                </div>
+                <div class="p-3 rounded-xl bg-white border border-peiai-line text-center">
+                  <div class="text-lg font-bold text-peiai-amber">35 位</div>
+                  <div class="text-[11px] text-zinc-500">兒少課後穩定陪伴</div>
+                </div>
+                <div class="p-3 rounded-xl bg-white border border-peiai-line text-center">
+                  <div class="text-lg font-bold text-peiai-red">42 位</div>
+                  <div class="text-[11px] text-zinc-500">參與服務志工人次</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 歷史月份封存列表 -->
+        <div>
+          <div class="flex items-center justify-between mb-5">
+            <h3 class="text-lg font-bold text-peiai-trunk">歷史月份成果存檔</h3>
+            <span class="text-xs text-zinc-500">點擊卡片可檢視當月完整圖文報告</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="monthlyArchiveGrid">
+            <!-- JS 動態渲染 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 子分頁 2：影音專區 (YouTube 播放清單鑲嵌設計) -->
+      <div id="review-sub-videos" class="hidden space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-peiai-cream p-5 rounded-xl border border-peiai-line">
+          <div>
+            <h2 class="text-lg font-bold text-peiai-trunk">培愛官方 YouTube 精選影音專區</h2>
+            <p class="text-xs sm:text-sm text-zinc-600">依主題彙整協會介紹、長青據點紀錄、兒少營隊與家庭婚姻教育回顧影片</p>
+          </div>
+          <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-lg bg-peiai-red text-white text-xs sm:text-sm font-bold hover:bg-red-700 transition-colors shrink-0 text-center">
+            訂閱培愛 YouTube 頻道 ↗
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="videoGalleryGrid">
+          <!-- JS 動態渲染 16:9 影音卡片 -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 頁面容器 E：支持我們 (SUPPORT VIEW：一起夢想連結) ==================== -->
+  <section id="page-support" class="page-view hidden py-12 sm:py-16 bg-peiai-cream">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="text-xs text-zinc-400 mb-1">首頁 / 支持我們</div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-peiai-trunk mb-6">支持培愛｜讓愛在社區永續轉動</h1>
+
+      <div class="rounded-2xl bg-gradient-to-br from-white via-[#FFF9F4] to-[#FDE8D7] border border-peiai-line p-6 sm:p-10 shadow-xs space-y-6">
+        <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-peiai-red text-white">公益合作募資平台｜一起夢想</span>
+        <h2 class="text-xl sm:text-2xl font-bold text-peiai-trunk">邀請您成為中華培愛全人關懷協會的守護夥伴</h2>
+        <p class="text-sm sm:text-base text-zinc-700 leading-relaxed">
+          培愛在新北市新莊區長期推動弱勢與雙薪家庭兒少課後照顧、長輩社區關懷據點健康促進與共餐、以及婚姻與親子家庭教育。您的每一筆捐款與支持，都將直接轉化為孩子放學後的營養點心與課業陪伴、長輩每天在據點的溫暖共餐與健康課程。
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          <div class="p-4 rounded-xl bg-white/90 border border-peiai-line">
+            <div class="font-bold text-peiai-amber text-sm mb-1">守護兒少課後陪伴</div>
+            <p class="text-xs text-zinc-600">支持課後照顧班師資、教材與寒暑假營隊資源。</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white/90 border border-peiai-line">
+            <div class="font-bold text-peiai-green text-sm mb-1">支持長輩據點共餐</div>
+            <p class="text-xs text-zinc-600">支持高齡健康促進課程、營養共餐與志工培力。</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white/90 border border-peiai-line">
+            <div class="font-bold text-peiai-red text-sm mb-1">堅固社區家庭關係</div>
+            <p class="text-xs text-zinc-600">支持夫妻成長營、親職講座與幸福繪本館營運。</p>
+          </div>
+        </div>
+
+        <div class="pt-4 flex flex-wrap items-center gap-4">
+          <a href="https://510.org.tw/donations/281MM4" target="_blank" rel="noopener noreferrer" class="px-7 py-3.5 rounded-xl bg-peiai-red text-white font-bold text-sm sm:text-base hover:bg-red-700 transition-colors shadow-md">
+            前往「一起夢想」支持培愛專案 ↗
+          </a>
+          <span class="text-xs text-zinc-500">※ 點擊將另開新視窗前往「一起夢想公益協會」合作專案頁面</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 頁面容器 F：我要當志工 (VOLUNTEER VIEW) ==================== -->
+  <section id="page-volunteer" class="page-view hidden py-12 sm:py-16 bg-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-xs text-zinc-400 mb-1">首頁 / 我要當志工</div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-peiai-trunk mb-2">我要當志工｜用生命影響生命</h1>
+      <p class="text-sm sm:text-base text-zinc-600 mb-8">無論你是大專青年、社區居民或退休長輩，培愛都有適合你發揮熱情的服務舞台。</p>
+
+      <!-- 四大志工招募類別 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <div class="p-6 rounded-2xl bg-peiai-cream border border-peiai-line border-l-4 border-l-peiai-amber">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-lg font-bold text-peiai-trunk">1. 兒少課後照顧班志工</h2>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-peiai-amber/15 text-peiai-amber">每年 1月、7月招募</span>
+          </div>
+          <p class="text-xs text-zinc-500 mb-2">服務時間：週一至週五 12:00 - 20:00（可依時段排班）</p>
+          <p class="text-sm text-zinc-600 leading-relaxed">陪伴國小、國中學童完成每日功課與生活品格建立；歡迎對教學與陪伴兒少有熱忱的大專青年與社會人士（需面試）。</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-peiai-cream border border-peiai-line border-l-4 border-l-peiai-magenta">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-lg font-bold text-peiai-trunk">2. 寒暑假兒童生命教育營志工</h2>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-peiai-magenta/15 text-peiai-magenta">每年 4月、10月招募</span>
+          </div>
+          <p class="text-xs text-zinc-500 mb-2">服務時間：每年寒假及暑假營隊期間</p>
+          <p class="text-sm text-zinc-600 leading-relaxed">與輔大聖愛服務隊夥伴一起設計體驗教育、繪本故事與團康活動，陪伴孩童在愛中成長。</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-peiai-cream border border-peiai-line border-l-4 border-l-peiai-red">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-lg font-bold text-peiai-trunk">3. 聖誕劇團志工</h2>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-peiai-red/15 text-peiai-red">每年 9月招募</span>
+          </div>
+          <p class="text-xs text-zinc-500 mb-2">服務時間：每年 9 月至 12 月（含排練與巡演）</p>
+          <p class="text-sm text-zinc-600 leading-relaxed">擔任演員或道具製作組，於每年聖誕節期前往校園、社區與醫院演出聖誕劇，傳遞溫暖祝福。</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-peiai-cream border border-peiai-line border-l-4 border-l-peiai-green">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-lg font-bold text-peiai-trunk">4. 社區長輩據點志工／暑期實習生</h2>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-peiai-green/15 text-peiai-green">常態招募 / 配合系所</span>
+          </div>
+          <p class="text-xs text-zinc-500 mb-2">服務時間：平日據點開放時段 ／ 每年暑假實習期程</p>
+          <p class="text-sm text-zinc-600 leading-relaxed">協助據點健康促進運動、共餐打飯、電話問安與活動紀錄；亦歡迎兒童與家庭相關科系大三學生申請暑期實習。</p>
+        </div>
+      </div>
+
+      <!-- 簡易線上報名表單預覽 -->
+      <div class="rounded-2xl border border-peiai-line bg-peiai-cream/70 p-6 sm:p-8 max-w-2xl mx-auto">
+        <h3 class="text-xl font-bold text-peiai-trunk mb-2">線上志工報名登記</h3>
+        <p class="text-xs sm:text-sm text-zinc-600 mb-6">填寫基本資料後，培愛志工督導將主動與您聯繫說明服務細節（正式上線亦可直接嵌入協會 Google 表單）。</p>
+        <form onsubmit="handleVolunteerSubmit(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-peiai-trunk mb-1">姓名 *</label>
+              <input type="text" required placeholder="請輸入您的姓名" class="w-full px-3.5 py-2.5 rounded-lg bg-white border border-peiai-line text-sm focus:outline-none focus:border-peiai-red" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-peiai-trunk mb-1">聯絡電話 *</label>
+              <input type="tel" required placeholder="09XX-XXX-XXX" class="w-full px-3.5 py-2.5 rounded-lg bg-white border border-peiai-line text-sm focus:outline-none focus:border-peiai-red" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-peiai-trunk mb-1">有興趣參與的志工類別 *</label>
+            <select class="w-full px-3.5 py-2.5 rounded-lg bg-white border border-peiai-line text-sm focus:outline-none focus:border-peiai-red">
+              <option>兒少課後照顧班志工</option>
+              <option>寒暑假兒童生命教育營志工</option>
+              <option>聖誕劇團志工</option>
+              <option>社區長輩據點志工</option>
+              <option>大專暑期實習生</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-peiai-trunk mb-1">想說的話或可服務時段</label>
+            <textarea rows="3" placeholder="例如：每週三下午可至新莊據點協助、或想了解寒假營隊資訊..." class="w-full px-3.5 py-2.5 rounded-lg bg-white border border-peiai-line text-sm focus:outline-none focus:border-peiai-red"></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-xl bg-peiai-red text-white font-bold text-sm hover:bg-red-700 transition-colors cursor-pointer">
+            送出志工報名意願
+          </button>
+        </form>
+        <div id="volunteerSuccessMsg" class="hidden mt-4 p-4 rounded-xl bg-peiai-green/15 text-peiai-green text-sm font-semibold text-center">
+          感謝您的愛心登記！培愛同工將於 2 個工作天內與您聯繫。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 頁尾 (Footer - 沉穩樹幹深灰 + 聯絡與社群資訊) ==================== -->
+  <footer class="bg-peiai-trunk text-zinc-300 pt-14 pb-10 border-t border-zinc-700">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-white/15">
+        <!-- 左側識別 -->
+        <div class="md:col-span-5 space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+              <span class="text-peiai-red text-xl font-bold">♥</span>
+            </div>
+            <div>
+              <div class="text-base sm:text-lg font-bold text-white">社團法人中華培愛全人關懷協會</div>
+              <div class="text-[11px] tracking-wider text-amber-300 uppercase">Empower Love Holistic Care Association</div>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-sm">
+            用愛陪伴，以愛培力。深耕新莊社區，陪伴兒少、青年、家庭與長輩走過每一個生命階段，打造跨世代彼此守望的幸福社區。
+          </p>
+        </div>
+
+        <!-- 中間：地址、電話、信箱 -->
+        <div class="md:col-span-4 space-y-2.5 text-sm">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-white mb-3">聯絡資訊</h3>
+          <p><span class="text-zinc-400">地址：</span>242050 新北市新莊區中正路708號4樓<br/><span class="text-xs text-zinc-400">（社區據點：新北市新莊區中正路708-6號3樓）</span></p>
+          <p><span class="text-zinc-400">電話：</span>02-2903-1191</p>
+          <p><span class="text-zinc-400">信箱：</span>beeaman@empowerlove.org.tw</p>
+        </div>
+
+        <!-- 右側：FB、YT 與 TOP -->
+        <div class="md:col-span-3 flex flex-col justify-between items-start md:items-end gap-4">
+          <div class="space-y-2.5 md:text-right">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-white mb-3">社群與影音平台</h3>
+            <div class="flex flex-wrap md:justify-end gap-2">
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#1877F2] text-white text-xs font-bold hover:opacity-90 transition-opacity">
+                <span>FB 粉絲專頁</span>
+              </a>
+              <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#FF0000] text-white text-xs font-bold hover:opacity-90 transition-opacity">
+                <span>YT 官方頻道</span>
+              </a>
+            </div>
+          </div>
+
+          <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors cursor-pointer">
+            TOP ↑
+          </button>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-400 gap-2">
+        <p>© 2026 社團法人中華培愛全人關懷協會 All Rights Reserved.</p>
+        <p>全站架構與文案定稿預覽原型</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== 文章與影音檢視彈窗 (Modal) ==================== -->
+  <div id="contentModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/65 backdrop-blur-xs p-4" onclick="if(event.target.id==='contentModal') closeContentModal()">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[88vh] overflow-y-auto p-6 sm:p-8 shadow-2xl border border-peiai-line relative">
+      <button onclick="closeContentModal()" aria-label="關閉視窗" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-600 flex items-center justify-center font-bold cursor-pointer">✕</button>
+      <span id="cModalTag" class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-peiai-red/15 text-peiai-red mb-2">標籤</span>
+      <h3 id="cModalTitle" class="text-xl sm:text-2xl font-bold text-peiai-trunk mb-1">標題</h3>
+      <p id="cModalDate" class="text-xs text-zinc-400 mb-4">日期</p>
+      <div id="cModalBody" class="text-sm sm:text-base text-zinc-700 leading-relaxed space-y-4 border-t border-zinc-100 pt-4"></div>
+    </div>
+  </div>
+
+  <!-- ==================== 互動邏輯 Script ==================== -->
+  <script>
+    // 1. 多頁面無縫切換（模擬完整網站架構點選）
+    function switchPage(pageName, subParam) {
+      document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+      const target = document.getElementById('page-' + pageName);
+      if (target) {
+        target.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      if (pageName === 'about' && subParam) switchAboutTab(subParam);
+      if (pageName === 'services' && subParam) filterServiceSection(subParam);
+      if (pageName === 'review' && subParam) switchReviewTab(subParam);
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    }
+
+    // 2. 主視覺背景影片輪播：播完淡入下一支；減少動態效果時暫停（CSS 會同時改顯示封面圖）
+    (function initHeroVideo() {
+      const videos = Array.from(document.querySelectorAll('.hero-video'));
+      if (!videos.length) return;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let current = 0;
+
+      const show = (index) => {
+        videos.forEach((v, i) => {
+          v.classList.toggle('is-active', i === index);
+          if (i !== index) v.pause();
+        });
+        current = index;
+        const video = videos[index];
+        video.currentTime = 0;
+        if (!reduceMotion.matches) video.play().catch(() => {});
+        const next = videos[(index + 1) % videos.length];
+        next.preload = 'auto';
+      };
+
+      const advance = () => show((current + 1) % videos.length);
+      videos.forEach((v) => {
+        v.addEventListener('ended', advance);
+        v.addEventListener('error', () => { if (v === videos[current]) advance(); }, true);
+      });
+      if (videos.length === 1) videos[0].loop = true;
+
+      reduceMotion.addEventListener('change', () => {
+        if (reduceMotion.matches) videos[current].pause();
+        else videos[current].play().catch(() => {});
+      });
+      show(0);
+    })();
+
+    // 3. 最新消息與每月成果資料（串接一起夢想報告與 YT 影音）
+    const updatesData = [
+      {
+        id: 'nov-report',
+        category: '每月成果報告',
+        tagColor: 'bg-peiai-green text-white',
+        date: '2026/11/20',
+        title: '【一起夢想每月成果】2026年11月：青銀共融暖冬陪伴與聖誕劇排練',
+        excerpt: '本月據點共服務超過 480 人次長輩健康促進與共餐，課後班與聖誕劇團同步啟動《七隻小羊》排練，凝聚跨世代溫暖力量。',
+        image: 'https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?auto=format&fit=crop&w=800&q=80',
+        hasVideo: false,
+        detail: `
+          <p><strong>報告月份：</strong>2026 年 11 月（同步提交一起夢想公益專案與粉專紀實）</p>
+          <p>本月我們在社區照顧關懷據點辦理 20 場作伙共餐與健康促進肌耐力課程，長輩們在銀髮種子講師帶領下活力十足；課後照顧班則結合輔大服務隊展開每週品格與戲劇排練。</p>
+          <div class="p-4 rounded-xl bg-peiai-cream border border-peiai-line text-xs space-y-1">
+            <div>• 長輩關懷與運動服務：480 人次</div>
+            <div>• 兒少課後照顧穩定陪伴：35 位學童</div>
+            <div>• 社區與青年志工投入：42 人次</div>
+          </div>
+        `
+      },
+      {
+        id: 'oct-report',
+        category: '每月成果報告',
+        tagColor: 'bg-peiai-green text-white',
+        date: '2026/10/25',
+        title: '【一起夢想每月成果】2026年10月：夫妻成長營與重陽敬老同樂',
+        excerpt: '舉辦兩天一夜夫妻成長營陪伴伴侶修復關係；據點長輩歡慶重陽節並進行健康檢測，展現銀髮族自信光彩。',
+        image: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80',
+        hasVideo: false,
+        detail: `
+          <p><strong>報告月份：</strong>2026 年 10 月（同步提交一起夢想公益專案與粉專紀實）</p>
+          <p>10 月份我們陪伴多對伴侶透過兩天一夜營隊學習溝通與愛的存款，同時在社區據點舉辦重陽敬老活動，感謝高齡志工與種子講師的熱情付出。</p>
+        `
+      },
+      {
+        id: 'intro-video',
+        category: '影音精選',
+        tagColor: 'bg-peiai-red text-white',
+        date: '2026/11/05',
+        title: '【培愛介紹影片】用愛陪伴，以愛培力：看見社區改變的故事',
+        excerpt: '5 分鐘帶您認識培愛四大服務族群（兒少、青年、家庭、長輩），見證受助者如何一步步蛻變為服務他人的社區領袖。',
+        image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80',
+        hasVideo: true,
+        detail: `
+          <div class="aspect-video w-full rounded-xl overflow-hidden bg-zinc-900 border border-peiai-line flex flex-col items-center justify-center text-white p-6 text-center">
+            <div class="w-14 h-14 rounded-full bg-peiai-red flex items-center justify-center text-xl mb-3 shadow-lg">▶</div>
+            <p class="font-bold text-base mb-1">YouTube 影片鑲嵌預覽區</p>
+            <p class="text-xs text-zinc-300 max-w-md">正式上線時直接貼入培愛 YouTube 影片網址（iframe embed），訪客即可在此視窗直接播放觀看。</p>
+          </div>
+          <p class="mt-3">影片完整呈現培愛如何串聯學校、政府與志工資源，陪伴不同年齡層家庭成員建立永續支持網絡。</p>
+        `
+      }
+    ];
+
+    function renderHomeNews(cat = 'ALL') {
+      const grid = document.getElementById('homeNewsGrid');
+      const list = cat === 'ALL' ? updatesData : updatesData.filter(i => i.category === cat);
+      grid.innerHTML = list.map(item => `
+        <article onclick="openUpdateModal('${item.id}')" class="group bg-peiai-cream/60 rounded-2xl border border-peiai-line overflow-hidden hover:shadow-md transition-all cursor-pointer flex flex-col justify-between">
+          <div>
+            <div class="relative aspect-16/10 bg-zinc-200 overflow-hidden">
+              <img src="${item.image}"
+                   onerror="this.src='https://placehold.co/800x500/3F3F46/FFFFFF?text=Pei-Ai+News'"
+                   alt="${item.title}"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold ${item.tagColor} shadow-xs">
+                ${item.category}
+              </span>
+              ${item.hasVideo ? '<span class="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-black/75 text-white text-[11px] font-bold">▶ YT 影音</span>' : ''}
+            </div>
+            <div class="p-5">
+              <div class="text-xs text-zinc-400 font-medium mb-1.5">${item.date}</div>
+              <h3 class="text-base sm:text-lg font-bold text-peiai-trunk leading-snug mb-2 group-hover:text-peiai-red transition-colors">
+                ${item.title}
+              </h3>
+              <p class="text-sm text-zinc-600 leading-relaxed line-clamp-3">${item.excerpt}</p>
+            </div>
+          </div>
+          <div class="px-5 pb-4 pt-2 border-t border-zinc-200/60 text-xs font-bold text-peiai-red">
+            ${item.hasVideo ? '觀看影片與說明 →' : '閱讀完整內容 →'}
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function filterHomeNews(cat, btn) {
+      document.querySelectorAll('.home-news-tab').forEach(b => {
+        b.classList.remove('bg-peiai-trunk', 'text-white');
+        b.classList.add('bg-peiai-cream', 'text-zinc-600', 'border', 'border-peiai-line');
+      });
+      btn.classList.remove('bg-peiai-cream', 'text-zinc-600', 'border', 'border-peiai-line');
+      btn.classList.add('bg-peiai-trunk', 'text-white');
+      renderHomeNews(cat);
+    }
+
+    function toggleWorkflowTip() {
+      document.getElementById('workflowTipBox').classList.toggle('hidden');
+    }
+
+    // 4. 內頁子分頁與篩選邏輯
+    function switchAboutTab(tab) {
+      const isIntro = tab === 'intro';
+      document.getElementById('about-sub-intro').classList.toggle('hidden', !isIntro);
+      document.getElementById('about-sub-org').classList.toggle('hidden', isIntro);
+      document.getElementById('aboutTabIntro').className = isIntro
+        ? 'px-4 py-2 rounded-lg text-sm font-bold bg-peiai-red text-white cursor-pointer'
+        : 'px-4 py-2 rounded-lg text-sm font-semibold bg-peiai-cream text-zinc-600 border border-peiai-line cursor-pointer';
+      document.getElementById('aboutTabOrg').className = !isIntro
+        ? 'px-4 py-2 rounded-lg text-sm font-bold bg-peiai-red text-white cursor-pointer'
+        : 'px-4 py-2 rounded-lg text-sm font-semibold bg-peiai-cream text-zinc-600 border border-peiai-line cursor-pointer';
+    }
+
+    function filterServiceSection(group, btn) {
+      if (btn) {
+        document.querySelectorAll('.srv-filter-btn').forEach(b => {
+          b.className = 'srv-filter-btn px-4 py-2 rounded-lg text-sm font-semibold bg-white text-zinc-700 border border-peiai-line cursor-pointer';
+        });
+        btn.className = 'srv-filter-btn px-4 py-2 rounded-lg text-sm font-bold bg-peiai-trunk text-white cursor-pointer';
+      }
+      document.querySelectorAll('[data-srv-group]').forEach(sec => {
+        if (group === 'all' || sec.getAttribute('data-srv-group') === group) {
+          sec.classList.remove('hidden');
+        } else {
+          sec.classList.add('hidden');
+        }
+      });
+    }
+
+    function switchReviewTab(tab) {
+      const isMonthly = tab === 'monthly';
+      document.getElementById('review-sub-monthly').classList.toggle('hidden', !isMonthly);
+      document.getElementById('review-sub-videos').classList.toggle('hidden', isMonthly);
+      document.getElementById('reviewTabMonthly').className = isMonthly
+        ? 'px-4 py-2 rounded-lg text-sm font-bold bg-peiai-red text-white cursor-pointer'
+        : 'px-4 py-2 rounded-lg text-sm font-semibold bg-peiai-cream text-zinc-600 border border-peiai-line cursor-pointer';
+      document.getElementById('reviewTabVideos').className = !isMonthly
+        ? 'px-4 py-2 rounded-lg text-sm font-bold bg-peiai-red text-white cursor-pointer'
+        : 'px-4 py-2 rounded-lg text-sm font-semibold bg-peiai-cream text-zinc-600 border border-peiai-line cursor-pointer';
+    }
+
+    // 渲染活動回顧頁面的歷史月份與 YT 播放清單
+    function renderReviewContent() {
+      const archives = [
+        { month: '2026 年 10 月', title: '夫妻成長營幸福旅程與長青重陽敬老活動', summary: '舉辦兩天一夜夫妻成長營陪伴伴侶修復關係；據點長輩歡慶重陽節並進行健康檢測。' },
+        { month: '2026 年 09 月', title: '秋季課後班開學與高齡志工增能培訓', summary: '迎接新學期國小與國中課後班學童；辦理據點志工肌耐力與關懷訪視培訓課程。' },
+        { month: '2026 年 08 月', title: '暑期夏日學園結業式與生命繪本成果展', summary: '三週夏日學園圓滿結業，青少年志工帶領學弟妹展現才藝；長輩與大學生共同發表生命故事繪本。' }
+      ];
+      document.getElementById('monthlyArchiveGrid').innerHTML = archives.map(a => `
+        <div class="p-5 rounded-xl bg-peiai-cream border border-peiai-line flex flex-col justify-between">
+          <div>
+            <span class="inline-block text-xs font-bold text-peiai-amber mb-1.5">${a.month}</span>
+            <h4 class="font-bold text-peiai-trunk mb-2">${a.title}</h4>
+            <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed mb-4">${a.summary}</p>
+          </div>
+          <span class="text-xs font-semibold text-zinc-400">已歸檔於一起夢想成果庫</span>
+        </div>
+      `).join('');
+
+      const playlists = [
+        { listTitle: '播放清單 01｜認識培愛與年度回顧', desc: '中華培愛全人關懷協會簡介影片、年度感恩回顧與社區故事紀錄。', color: 'border-t-peiai-red' },
+        { listTitle: '播放清單 02｜長青據點與千歲不老樂團', desc: '據點動健康、西門町快閃演出、時尚老人走秀與高齡志工專訪。', color: 'border-t-peiai-green' },
+        { listTitle: '播放清單 03｜兒少課後班與聖誕戲劇演出', desc: '夏日學園花絮、聖愛服務隊生命教育營與歷年聖誕音樂劇精華。', color: 'border-t-peiai-amber' },
+        { listTitle: '播放清單 04｜夫妻成長營與家庭教育', desc: '兩天一夜夫妻營會回顧、親密之旅見證分享與幸福繪本館親子活動。', color: 'border-t-peiai-magenta' }
+      ];
+      document.getElementById('videoGalleryGrid').innerHTML = playlists.map(p => `
+        <div class="rounded-2xl border border-peiai-line border-t-4 ${p.color} bg-peiai-cream/40 overflow-hidden">
+          <div class="aspect-video bg-zinc-900 flex flex-col items-center justify-center text-white p-6 text-center relative">
+            <div class="w-12 h-12 rounded-full bg-white/15 border border-white/30 flex items-center justify-center text-lg mb-2">▶</div>
+            <div class="text-sm font-bold">${p.listTitle}</div>
+            <div class="text-[11px] text-zinc-400 mt-1">YouTube Playlist 鑲嵌區塊（16:9）</div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-peiai-trunk mb-1.5">${p.listTitle}</h3>
+            <p class="text-xs sm:text-sm text-zinc-600 leading-relaxed">${p.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openUpdateModal(id) {
+      const item = updatesData.find(x => x.id === id);
+      if (!item) return;
+      document.getElementById('cModalTag').textContent = item.category;
+      document.getElementById('cModalTitle').textContent = item.title;
+      document.getElementById('cModalDate').textContent = '發布日期：' + item.date;
+      document.getElementById('cModalBody').innerHTML = item.detail;
+      const modal = document.getElementById('contentModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeContentModal() {
+      const modal = document.getElementById('contentModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleVolunteerSubmit(e) {
+      e.preventDefault();
+      document.getElementById('volunteerSuccessMsg').classList.remove('hidden');
+      e.target.reset();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderHomeNews('ALL');
+      renderReviewContent();
+    });
+  </script>
+</body>
+</html>
